@@ -1,6 +1,8 @@
 # SynBookSmart
 A configurable Synthesis patcher to label books that teach skills.
 
+This will work on any book from any mod that uses the "Teaches Skill" DATA flag.
+
 ## Settings
 All settings can be configured inside the Synthesis app.
 
