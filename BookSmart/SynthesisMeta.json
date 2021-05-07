@@ -1,0 +1,8 @@
+{
+  "Nickname": "BookSmart",
+  "Visibility": "Visible",
+  "OneLineDescription": "Label books that will give you skill ups",
+  "LongDescription": "Adds a label to any books you find that will cause you to gain skills. Dynamically pulls this information from any book as long as it uses the standard 'Teaches Skill' script attached. Will not work if a custom mod is using different scripts to apply the skill up.\r\n\r\nLabel format and encapsulating characters can be configured.\r\nStar:  *BookName\r\nShort: <Alch> BookName\r\nLong:  <Alchemy> BookName",
+  "PreferredAutoVersioning": "Default",
+  "RequiredMods": []
+}
