@@ -39,8 +39,6 @@ namespace BookSmart
             {
                 if (book.Teaches is IBookSkillGetter skillTeach)
                 {
-                    Console.WriteLine($"BOOK '{book.Name}' ({book.FormKey}) teaches: {skillTeach.Skill}");
-
                     // variables for use in this section
                     string newName = "Unknown";
                     string? skillName = "Unknown";
@@ -48,46 +46,55 @@ namespace BookSmart
                     string close = "";
 
                     // set the open and close characters that go around the skill name
-                    if (settings.encapsulatingCharacters == Settings.EncapsulatingCharacters.Chevrons) { open = "<"; close = ">"; }
-                    else if (settings.encapsulatingCharacters == Settings.EncapsulatingCharacters.Curly_Brackets) { open = "{"; close = "}"; }
-                    else if (settings.encapsulatingCharacters == Settings.EncapsulatingCharacters.Parenthesis) { open = "("; close = ")"; }
-                    else if (settings.encapsulatingCharacters == Settings.EncapsulatingCharacters.Square_Brackets) { open = "["; close = "]"; }
-                    else if (settings.encapsulatingCharacters == Settings.EncapsulatingCharacters.Stars) { open = "*"; close = "*"; }
+                    switch (settings.encapsulatingCharacters)
+                    {
+                        case Settings.EncapsulatingCharacters.Chevrons: { open = "<"; close = ">"; break; }
+                        case Settings.EncapsulatingCharacters.Curly_Brackets: { open = "{"; close = "}"; break; }
+                        case Settings.EncapsulatingCharacters.Parenthesis: { open = "("; close = ")"; break; }
+                        case Settings.EncapsulatingCharacters.Square_Brackets: { open = "["; close = "]"; break; }
+                        case Settings.EncapsulatingCharacters.Stars: { open = "*"; close = "*"; break; }
+                        default: throw new NotImplementedException("Somehow you set Encapsulating Characters to something that isn't supported.");
+                    }
 
-                    // I hate myself for this next part
                     // Label Format: Long
                     if (settings.labelFormat == Settings.LabelFormat.Long)
                     {
-                        if (skillTeach.Skill.ToString() == "HeavyArmor") { skillName = "Heavy Armor"; }
-                        else if (skillTeach.Skill.ToString() == "LightArmor") { skillName = "Light Armor"; }
-                        else if (skillTeach.Skill.ToString() == "OneHanded") { skillName = "One Handed"; }
-                        else if (skillTeach.Skill.ToString() == "TwoHanded") { skillName = "Two Handed"; }
-                        else { skillName = skillTeach.Skill.ToString(); }
+                        skillName = skillTeach.Skill switch
+                        {
+                            Skill.HeavyArmor => "Heavy Armor",
+                            Skill.LightArmor => "Light Armor",
+                            Skill.OneHanded => "One Handed",
+                            Skill.TwoHanded => "Two Handed",
+                            _ => skillTeach.Skill.ToString()
+                        };
 
                         newName = $"{open}{skillName}{close} {book.Name}";
                     }
                     // Label Format: Short
                     else if (settings.labelFormat == Settings.LabelFormat.Short)
                     {
-                        if (skillTeach.Skill.ToString() == "Alchemy") { skillName = "Alch"; }
-                        else if (skillTeach.Skill.ToString() == "Alteration") { skillName = "Altr"; }
-                        else if (skillTeach.Skill.ToString() == "Archery") { skillName = "Arch"; }
-                        else if (skillTeach.Skill.ToString() == "Block") { skillName = "Blck"; }
-                        else if (skillTeach.Skill.ToString() == "Conjuration") { skillName = "Conj"; }
-                        else if (skillTeach.Skill.ToString() == "Destruction") { skillName = "Dest"; }
-                        else if (skillTeach.Skill.ToString() == "Enchanting") { skillName = "Ench"; }
-                        else if (skillTeach.Skill.ToString() == "HeavyArmor") { skillName = "H.Arm"; }
-                        else if (skillTeach.Skill.ToString() == "Illusion") { skillName = "Illu"; }
-                        else if (skillTeach.Skill.ToString() == "LightArmor") { skillName = "L.Arm"; }
-                        else if (skillTeach.Skill.ToString() == "Lockpicking") { skillName = "Lock"; }
-                        else if (skillTeach.Skill.ToString() == "OneHanded") { skillName = "1H"; }
-                        else if (skillTeach.Skill.ToString() == "Pickpocket") { skillName = "Pick"; }
-                        else if (skillTeach.Skill.ToString() == "Restoration") { skillName = "Resto"; }
-                        else if (skillTeach.Skill.ToString() == "Smithing") { skillName = "Smth"; }
-                        else if (skillTeach.Skill.ToString() == "Sneak") { skillName = "Snk"; }
-                        else if (skillTeach.Skill.ToString() == "Speech") { skillName = "Spch"; }
-                        else if (skillTeach.Skill.ToString() == "TwoHanded") { skillName = "2H"; }
-                        else { skillName = skillTeach.Skill.ToString(); }
+                        skillName = skillTeach.Skill switch
+                        {
+                            Skill.Alchemy => "Alch",
+                            Skill.Alteration => "Altr",
+                            Skill.Archery => "Arch",
+                            Skill.Block => "Blck",
+                            Skill.Conjuration => "Conj",
+                            Skill.Destruction => "Dest",
+                            Skill.Enchanting => "Ench",
+                            Skill.HeavyArmor => "H.Arm",
+                            Skill.Illusion => "Illu",
+                            Skill.LightArmor => "L.Arm",
+                            Skill.Lockpicking => "Lock",
+                            Skill.OneHanded => "1H",
+                            Skill.Pickpocket => "Pick",
+                            Skill.Restoration => "Resto",
+                            Skill.Smithing => "Smith",
+                            Skill.Sneak => "Snk",
+                            Skill.Speech => "Spch",
+                            Skill.TwoHanded => "2H",
+                            _ => skillTeach.Skill.ToString()
+                        };
 
                         newName = $"{open}{skillName}{close} {book.Name}";
                     }
@@ -96,11 +103,17 @@ namespace BookSmart
                     {
                         newName = $"*{book.Name}";
                     }
+                    else
+                    {
+                        throw new NotImplementedException("Somehow you set labelFormat to something that isn't supported.");
+                    }
 
                     // Actually create the override record
                     var bookOverride = state.PatchMod.Books.GetOrAddAsOverride(book);
                     bookOverride.Name = newName;
-                    Console.WriteLine($"Renamed to: '{bookOverride.Name}'");
+
+                    // Console output
+                    Console.WriteLine($"{book.FormKey}: '{book.Name}' -> '{bookOverride.Name}'");
                 }
             });
         }
