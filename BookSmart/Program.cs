@@ -63,12 +63,18 @@ namespace BookSmart
                         {
                             Skill.HeavyArmor => "Heavy Armor",
                             Skill.LightArmor => "Light Armor",
-                            Skill.OneHanded => "One Handed",
-                            Skill.TwoHanded => "Two Handed",
+                            Skill.OneHanded => "One-Handed",
+                            Skill.TwoHanded => "Two-Handed",
                             _ => skillTeach.Skill.ToString()
                         };
 
-                        newName = $"{open}{skillName}{close} {book.Name}";
+                        switch (settings.labelPosition)
+                        {
+                            case Settings.LabelPosition.Before_Name: { newName = $"{open}{skillName}{close} {book.Name}"; break; }
+                            case Settings.LabelPosition.After_Name: { newName = $"{book.Name} {open}{skillName}{close}"; break; }
+                            default: throw new NotImplementedException("Somehow your set Label Position to something that isn't supported.");
+                        }
+                        
                     }
                     // Label Format: Short
                     else if (settings.labelFormat == Settings.LabelFormat.Short)
@@ -96,12 +102,22 @@ namespace BookSmart
                             _ => skillTeach.Skill.ToString()
                         };
 
-                        newName = $"{open}{skillName}{close} {book.Name}";
+                        switch (settings.labelPosition)
+                        {
+                            case Settings.LabelPosition.Before_Name: { newName = $"{open}{skillName}{close} {book.Name}"; break; }
+                            case Settings.LabelPosition.After_Name: { newName = $"{book.Name} {open}{skillName}{close}"; break; }
+                            default: throw new NotImplementedException("Somehow your set Label Position to something that isn't supported.");
+                        }
                     }
                     // Label Format: Star
                     else if (settings.labelFormat == Settings.LabelFormat.Star)
                     {
-                        newName = $"*{book.Name}";
+                        switch (settings.labelPosition)
+                        {
+                            case Settings.LabelPosition.Before_Name: { newName = $"*{book.Name}"; break; }
+                            case Settings.LabelPosition.After_Name: { newName = $"{book.Name}*"; break; }
+                            default: throw new NotImplementedException("Somehow your set Label Position to something that isn't supported.");
+                        }
                     }
                     else
                     {
