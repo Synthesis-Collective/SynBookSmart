@@ -134,11 +134,7 @@ namespace BookSmart
                         if (alias.CreateReferenceToObject is not null)
                         {
                             // try to resolve the quest object to the actual records
-                            if (!alias.CreateReferenceToObject.Object.TryResolve(state.LinkCache, out var questObject))
-                            {
-                                Console.WriteLine($"WARNING: Referenced object '{alias.CreateReferenceToObject.Object}' in Quest '{quest.FormKey} could not be resolved.");
-                            }
-                            else if (questObject is IBookGetter)
+                            if (alias.CreateReferenceToObject.Object.TryResolve<IBookGetter>(state.LinkCache, out var questObject))
                             {
                                 //Console.WriteLine($"{quest.FormKey}: '{questObject.FormKey}' is used in quest '{quest.Name}'");
                                 questBookCache.Add(questObject.FormKey.ToString());
@@ -153,11 +149,7 @@ namespace BookSmart
                             {
                                 // try to resolve the quest object to the actual records
                                 // item.item.item.item
-                                if (!item.Item.Item.TryResolve(state.LinkCache, out var questObject))
-                                {
-                                    Console.WriteLine($"WARNING: Referenced object '{item.Item.Item}' in Quest '{quest.FormKey} could not be resolved.");
-                                }
-                                else if (questObject is IBookGetter)
+                                if (item.Item.Item.TryResolve<IBookGetter>(state.LinkCache, out var questObject))
                                 {
                                     //Console.WriteLine($"{quest.FormKey}: '{questObject.FormKey}' is used in quest '{quest.Name}'");
                                     questBookCache.Add(questObject.FormKey.ToString());
