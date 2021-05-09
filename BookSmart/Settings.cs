@@ -55,6 +55,6 @@ namespace BookSmart
         [SynthesisOrder]
         [SynthesisSettingName("Encapsulating Characters")]
         [SynthesisTooltip("The characters to wrap the skill name in.\r\nParenthesis: ()\r\nCurly Brackets: {}\r\nSquare Brackets: []\r\nChevrons: <>\r\nStars: *")]
-        public EncapsulatingCharacters encapsulatingCharacters { get; set; } = EncapsulatingCharacters.Chevrons;
+        public EncapsulatingCharacters encapsulatingCharacters { get; set; } = EncapsulatingCharacters.Parenthesis;
     }
 }
