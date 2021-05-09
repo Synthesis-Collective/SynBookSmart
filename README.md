@@ -38,5 +38,6 @@ This setting has no effect if a Label Format of `Star` is chosen.
   - `[Alch] Snape's Book of Potions`
 - Chevrons
   - `<Alch> Snape's Book of Potions`
+  - Note that the tag will only show up in your inventory, not in the game world, if you choose this option
 - Stars
   - `*Alch* Snape's Book of Potions`
