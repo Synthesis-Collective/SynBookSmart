@@ -263,7 +263,7 @@ namespace BookSmart
             {
                 foreach (var script in book.VirtualMachineAdapter.Scripts)
                 {
-                    if (script.Name.Contains("Quest", StringComparison.OrdinalIgnoreCase))
+                    if (script.Name.Contains("Quest", StringComparison.OrdinalIgnoreCase) || settings.assumeBookScriptsAreQuests)
                     {
                         Console.WriteLine($"{book.FormKey}: '{book.Name}' has a quest script called '{script.Name}'.");
                         isBookQuestRealted = true;

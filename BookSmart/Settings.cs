@@ -17,6 +17,10 @@ namespace BookSmart
         [SynthesisTooltip("Add a quest tag to the book name if the book is used in a quest.")]
         public bool addQuestLabels = true;
 
+        [SynthesisOrder]
+        [SynthesisTooltip("Assumes that any BOOK with a script on it is a quest book. May incorrectly mark some books. Will improve detection for mod books that use their own scripts.")]
+        public bool assumeBookScriptsAreQuests = false;
+
         // Label Position
         public enum LabelPosition
         {
