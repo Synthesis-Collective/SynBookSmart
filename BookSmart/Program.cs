@@ -166,10 +166,9 @@ namespace BookSmart
 
         public static string? GetSkillLabelName(IBookGetter book)
         {
-            // variables for use in this section
-            if (book.Teaches == null) { return null; }
-            IBookSkillGetter skillTeach = (IBookSkillGetter)book.Teaches;
-            if (skillTeach == null || skillTeach.Skill == null) { return null; }
+            if (book.Teaches is not IBookSkillGetter skillTeach) return null;
+            if (skillTeach.Skill == null) return null;
+            if ((int)skillTeach.Skill == -1) return null;
 
             // Label Format: Long
             if (settings.labelFormat == Settings.LabelFormat.Long)
